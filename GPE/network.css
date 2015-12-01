@@ -1,7 +1,7 @@
 #mynetwork {
     float: left;
-    width: 75%;
-    height: 700px;
+    width: 70vw;
+    height: 80vh;
     border: 1px solid lightgray;
     margin-left: 20px;
 }
@@ -55,4 +55,8 @@ div.table_description {
 h2 {
     position: relative;
     left: 6%;
+}
+#fitButton{
+    position: relative;
+    left: 43%;
 }

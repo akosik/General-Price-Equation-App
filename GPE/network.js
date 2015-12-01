@@ -2,6 +2,8 @@
 /* General Price Equation Visual Aid */
 ///////////////////////////////////////
 
+var network;
+
 function destroy(network) {
     if (network !== null) {
         network.destroy();
@@ -10,7 +12,7 @@ function destroy(network) {
 }
 
 function draw() {
-    var network = null;
+    network = null;
     var data = null;
     destroy(network);
     var nodes = [];
@@ -87,6 +89,7 @@ function draw() {
                 callback(data);
                 calculate(nodes, edges);
             },
+            editEdge: false,
             deleteNode: false,
         },
         interaction: {selectConnectedEdges: true}
@@ -235,6 +238,9 @@ function calculate(nodes, edges) {
     document.getElementById('2ndTerm').innerHTML = term2;
     document.getElementById('3rdTerm').innerHTML = term3;
     document.getElementById('deltaXbar').innerHTML = deltaXbar;
+    document.getElementById('xbard').innerHTML = Xbar_d;
+    document.getElementById('xbara').innerHTML = Xbar_a;
+
 
 }
 
@@ -243,3 +249,8 @@ Number.prototype.toFixedDown = function(digits) {
         m = this.toString().match(re);
     return m ? parseFloat(m[1]) : this.valueOf();
 };
+
+
+function fit() {
+    if(network !== null) network.fit();
+}

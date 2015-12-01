@@ -42,21 +42,28 @@
     </form>
 
     <form onsubmit="draw(); return false;">
-      <label for="wparentCount">Number of White Parent Nodes:</label>
+      <label for="wparentCount">Number of Parent Nodes per White Descendant:</label>
       <input id="wparentCount" type="text" value="1" style="width: 50px;">
       <input type="submit" value="Go">
     </form>
 
     <form onsubmit="draw(); return false;">
-      <label for="bparentCount">Number of Black Parent Nodes:</label>
+      <label for="bparentCount">Number of Parent Nodes per Black Descendant:</label>
       <input id="bparentCount" type="text" value="1" style="width: 50px;">
       <input type="submit" value="Go">
     </form>
 
-    <p>Ancestral Connectedness to Descendants (cov(C^a,X^a)):</p><p id="1stTerm"></p>
-    <p>Change in Character From Ancestors to Descendants over a Connection (ave(deltaX^a_d)):</p><p id="2ndTerm"></p>
-    <p>Descendant Connectedness to Ancestors (cov(C_d,X_d)):</p><p id="3rdTerm"></p>
-    <p>Average Change in Character (deltaXbar):</p><p id="deltaXbar"></p>
+    <p><img src="img/1stterm.gif"><span>  </span><span id="1stTerm"></span></p>
+    <p><img src="img/2ndterm.gif"><span>  </span><span id="2ndTerm"></span></p>
+    <p><img src="img/3rdterm.gif"><span>  </span><span id="3rdTerm"></span></p>
+    <p><img src="img/deltaXbar.gif"><span>  </span><span id="deltaXbar"></span></p>
+    <p><img src="img/xbard.gif"><span>  </span><span id="xbard"></span></p>
+    <p><img src="img/xbara.gif"><span>  </span><span id="xbara"></span></p>
+
+    <form onsubmit="fit(); return false;">
+      <input id="fitButton" type="submit" value="Fit">
+    </form>
+
   </div>
   <div id="mynetwork"></div>
 
