@@ -8902,7 +8902,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 12 */
 /***/ function(module, exports) {
 
-  
+
   /**
    * Expose `Emitter`.
    */
@@ -14111,10 +14111,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 27 */
 /***/ function(module, exports) {
 
-  
+
   /**
    * used in Core to convert the options into a volatile variable
-   * 
+   *
    * @param {function} moment
    * @param {Object} body
    * @param {Array | Object} hiddenDates
@@ -40818,9 +40818,9 @@ return /******/ (function(modules) { // webpackBootstrap
           } else {
             var from = this.body.nodes[this.temporaryIds.nodes[0]];
             if (this.selectedControlNode.id === from.id) {
-              this._performEditEdge(node.id, edge.to.id);
+                this._performEditEdge(node.id, edge.to.id);
             } else {
-              this._performEditEdge(edge.from.id, node.id);
+                this._performEditEdge(edge.from.id, node.id);
             }
           }
         } else {
@@ -41017,7 +41017,7 @@ return /******/ (function(modules) { // webpackBootstrap
        *
        * @private
        */
-      value: function _performEditEdge(sourceNodeId, targetNodeId) {
+        value: function _performEditEdge(sourceNodeId, targetNodeId) {
         var _this7 = this;
 
         var defaultData = { id: this.edgeBeingEditedId, from: sourceNodeId, to: targetNodeId };
@@ -43206,7 +43206,7 @@ return /******/ (function(modules) { // webpackBootstrap
           key: "_addImageToCache",
 
           /**
-           * @param {string} url                      The Url to cache the image as 
+           * @param {string} url                      The Url to cache the image as
             * @return {Image} imageToLoadBrokenUrlOn  The image object
            */
           value: function _addImageToCache(url, imageToCache) {
@@ -43266,7 +43266,7 @@ return /******/ (function(modules) { // webpackBootstrap
           value: function load(url, brokenUrl, id) {
               var _this2 = this;
 
-              //Try and get the image from the cache, if successful then return the cached image  
+              //Try and get the image from the cache, if successful then return the cached image
               var cachedImage = this.images[url];
               if (cachedImage) return cachedImage;
 

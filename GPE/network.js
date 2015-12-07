@@ -27,6 +27,11 @@ function draw() {
     var wparentCount = document.getElementById('wparentCount').value;
     var bparentCount = document.getElementById('bparentCount').value;
 
+    if(wparentCount > wnodeCount1 || bparentCount > bnodeCount1) {
+        alert("There are too many parents for the current number of ancestors. \n \n Please change one of these values.");
+        return null;
+    }
+
     //Create Ancestors
     for(var i = 0; i < wnodeCount1; i++) {
         nodes.push({id: 'aw' + i, borderWidth: 3, level: 0, color: {background: 'white', border:'black'}});
@@ -67,30 +72,39 @@ function draw() {
 
         manipulation: {
             addNode: false,
+            deleteNode: false,
             addEdge: function (data, callback) {
-                data.arrows = 'to';
                 if (data.from == data.to) {
                     var r = confirm("Do you want to connect the node to itself?");
                     if (r == true) {
                         callback(data);
                     }
                 }
-                else {
-                    callback(data);
-                }
+                else return null;
+                data.arrows = 'to';
                 edges.push(data);
                 calculate(nodes, edges);
-
             },
             deleteEdge: function(data, callback) {
-                for(i in edges) {
-                    if(edges[i].id == data.edges[0]) edges.splice(i,1);
+                for(edge in edges) {
+                    if(edges[edge].id == data.edges[0]) edges.splice(edge,1);
                 }
-                callback(data);
+                callback(data)
                 calculate(nodes, edges);
             },
-            editEdge: false,
-            deleteNode: false,
+            editEdge: function(data, callback) {
+                callback(data);
+
+                //Remove Former Edge
+                for(edge in edges) {
+                    if(edges[edge].id == data.id) edges.splice(edge, 1);
+                }
+
+                //Add new Edge
+                data.arrows = 'to';
+                edges.push(data);
+                calculate(nodes, edges);
+            }
         },
         interaction: {selectConnectedEdges: true}
     };
@@ -132,14 +146,14 @@ function calculate(nodes, edges) {
     for(var j = 0; j < wnodeCount1; j++) {
         Cbar_a.push(0);
         for(i in edges) {
-            if(edges[i].from.search('w' + j.toString()) != -1) Cbar_a[j]++;
+            if(edges[i].from == ('aw' + j.toString()) ) Cbar_a[j]++;
         }
     }
     //Connections per ancestor (Black)
     for(var j = 0; j < bnodeCount1; j++) {
         Cbar_a.push(0);
         for(i in edges) {
-            if(edges[i].from.search('b' + j.toString()) != -1) Cbar_a[Number(wnodeCount1) + j]++;
+            if(edges[i].from == ('ab' + j.toString()) ) Cbar_a[Number(wnodeCount1) + j]++;
         }
     }
     //Ratio of Connections per ancestor for a specific ancestor to Overall Connections per ancestor
@@ -178,19 +192,18 @@ function calculate(nodes, edges) {
     for(var j = 1; j <= Number(wnodeCount2); j++) {
         Cbar_d.push(0);
         for(i in edges) {
-            if(edges[i].to.search('w' + j.toString()) != -1) Cbar_d[j-1]++;
+            if(edges[i].to == ('dw' + j.toString()) ) Cbar_d[j-1]++;
         }
     }
 
     for(var j = 1; j <= Number(bnodeCount2); j++) {
         Cbar_d.push(0);
         for(i in edges) {
-            if(edges[i].to.search('b' + j.toString()) != -1) Cbar_d[Number(wnodeCount2) + j-1]++;
+            if(edges[i].to == ('db' + j.toString()) ) Cbar_d[Number(wnodeCount2) + j-1]++;
         }
     }
     var connPerDescendant = connTotal/n_d;
     Cbar_d = Cbar_d.map(function(x) {return x / connPerDescendant; });
-
 
     var X_d =[];
     var j = 0;
@@ -227,13 +240,17 @@ function calculate(nodes, edges) {
     /////////////////////////////////////////////////////////////////
     //Term 2 (Calculated from Terms 1, 3 and Delta Xbar)
     /////////////////////////////////////////////////////////////////
+    //Calculate term 2 and round to zero if its less than 3 sig figs
+    var term2 = deltaXbar - term1 + term3;
+    if(Math.abs(term2) < .001) term2 = 0;
+
+    //truncate all terms to 3 sig figs
     term1 = term1.toFixedDown(3);
+    term2 = term2.toFixedDown(3);
     term3 = term3.toFixedDown(3);
     deltaXbar = deltaXbar.toFixedDown(3);
 
-    var term2 = deltaXbar - term1 + term3;
-
-
+    //Display terms
     document.getElementById('1stTerm').innerHTML = term1;
     document.getElementById('2ndTerm').innerHTML = term2;
     document.getElementById('3rdTerm').innerHTML = term3;
@@ -244,13 +261,14 @@ function calculate(nodes, edges) {
 
 }
 
+//truncate to 3 sig figs
 Number.prototype.toFixedDown = function(digits) {
     var re = new RegExp("([-+]?\\d+\\.\\d{" + digits + "})(\\d)"),
         m = this.toString().match(re);
     return m ? parseFloat(m[1]) : this.valueOf();
 };
 
-
+//refit network within canvas element
 function fit() {
     if(network !== null) network.fit();
 }
